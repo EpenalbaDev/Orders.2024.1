@@ -1,60 +1,40 @@
 ﻿@page "/countries"
-@inject IRepository repository
 
 <h3>Países</h3>
-@if(Countries is null)
-{
-    <p>cargando...</p>
-} else
-{
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table table-striped">
-                <thead>
+<div class="mb-3">
+    <a ></a>
+</div>
+<GenericList MyList="Countries">
+    <Body>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        País
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Countries!)
+                {
                     <tr>
-                        <th>
-                            País
-                        </th>
-                        <th>
-
-                        </th>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            <a class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Borrar</button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Countries!)
-                    {
-
-                        <tr>
-                            <td>
-                                @item.Name
-                            </td>
-                            <td>
-                                <a class="btn btn-warning">Editar</a>
-                                <button class="btn btn-danger">Borrar</button>
-                            </td>
-
-                        </tr>
-                    }
-
-                </tbody>
-            </table>
-        </div>
-
-    </div>
-  
-
-}
+                }
+            </tbody>
+        </table>
+    </Body>
+</GenericList>
 
 
-@code {
-
-    public List<Country>? Countries { get; set; }
-
-    protected async override Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        var responseHttp = await repository.GetAsync<List<Country>>("api/countries");
-        Countries = responseHttp.Response;
-    }
-
-}
+ 
+ 
