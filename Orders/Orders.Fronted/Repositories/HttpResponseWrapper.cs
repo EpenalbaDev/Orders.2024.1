@@ -1,6 +1,5 @@
-﻿
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
+﻿using System.Net;
+ 
 namespace Orders.Fronted.Repositories
 {
     public class HttpResponseWrapper<T>
@@ -16,30 +15,33 @@ namespace Orders.Fronted.Repositories
         public bool Error { get; }
         public HttpResponseMessage HttpResponseMessage { get; }
 
-        public async Task<string>? GetErrorMessageAsync()
+        public async Task<string?> GetErrorMessageAsync()
         {
-            if (!Error) {
+            if (!Error)
+            {
                 return null;
             }
 
             var statusCode = HttpResponseMessage.StatusCode;
-
-            if(statusCode == System.Net.HttpStatusCode.NotFound)
+            if (statusCode == HttpStatusCode.NotFound)
             {
                 return "Recurso no encontrado.";
             }
-
-            if (statusCode == System.Net.HttpStatusCode.BadRequest)
+            if (statusCode == HttpStatusCode.BadRequest)
             {
                 return await HttpResponseMessage.Content.ReadAsStringAsync();
             }
-
-            if (statusCode == System.Net.HttpStatusCode.Unauthorized)
+            if (statusCode == HttpStatusCode.Unauthorized)
             {
                 return "Tienes que estar logueado para ejecutar esta operación.";
             }
+            if (statusCode == HttpStatusCode.Forbidden)
+            {
+                return "No tienes permisos para hacer esta operación.";
+            }
 
-            return "Tienes un error inesperado.";
+            return "Ha ocurrido un error inesperado.";
         }
     }
 }
+

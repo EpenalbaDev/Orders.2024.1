@@ -1,32 +1,31 @@
 ﻿@page "/countries"
 
-<h3>Países</h3>
+<h3>Paises</h3>
+
 <div class="mb-3">
-    <a ></a>
+    <a class="btn btn-primary" href="/countries/create">Nuevo País</a>
 </div>
+
 <GenericList MyList="Countries">
     <Body>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>
-                        País
-                    </th>
-                    <th>
-
-                    </th>
+                    <th>País</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Countries!)
+                @foreach (var country in Countries!)
                 {
                     <tr>
                         <td>
-                            @item.Name
+                            @country.Name
                         </td>
                         <td>
-                            <a class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Borrar</button>
+                            <a href="/countries/edit/@country.Id" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger" @onclick=@(() => DeleteAsync(country))>Borrar</button>
+
                         </td>
                     </tr>
                 }
@@ -34,7 +33,3 @@
         </table>
     </Body>
 </GenericList>
-
-
- 
- 
